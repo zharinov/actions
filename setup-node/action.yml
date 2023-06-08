@@ -20,6 +20,9 @@ runs:
       with:
         path: node_modules
         key: node_modules-${{ inputs.os }}-${{ inputs.node-version }}-${{ hashFiles('yarn.lock') }}
+        
+    - shell: ${{ (inputs.os == 'Windows' && 'pwsh') || 'bash' }}
+      run: echo ${{ steps.node-modules-cache.outputs.cache-hit == 'false' }}
 
     - name: Setup Node
       uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
